@@ -137,6 +137,11 @@ li:hover {
 	width: 100%;
 
 }
+
+.projectText{
+	color: rgb(70, 70, 70);
+}
+
 #contact {
 	width: 50%;
 margin: auto;

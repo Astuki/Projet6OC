@@ -12,15 +12,21 @@ fetch('http://localhost:5678/api/works')
         const container = document.querySelector("div.gallery")
 
         data.forEach(item => {
-            const titleElement = document.createElement('h2');
-            titleElement.innerText = item.title;
+            const figureElement = document.createElement('figure');
 
             const imageElement = document.createElement('img');
             imageElement.src = item.imageUrl;
             imageElement.alt = item.title;
 
-            container.appendChild(titleElement);
-            container.appendChild(imageElement);
+            const figcaptionElement = document.createElement('figcaption');
+            figcaptionElement.innerText = item.title;
+
+            
+            figcaptionElement.classList.add("projectText")
+
+            container.appendChild(figureElement);
+            figureElement.appendChild(imageElement)
+            figureElement.appendChild(figcaptionElement);
         });
 
     })
