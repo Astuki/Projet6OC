@@ -216,3 +216,15 @@ footer nav ul {
 	margin: 2em
 }
 
+/* CSS spécifique login.html */
+
+#login_html{
+	display: flex;
+	align-items: center;
+}
+.link_forgot{
+	color: rgb(56, 56, 56);
+	margin: auto;
+	text-decoration: none;
+	border-bottom: 1px solid gray;
+}
