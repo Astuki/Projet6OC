@@ -57,4 +57,40 @@ fetch('http://localhost:5678/api/works')
     })
     .catch(error => {
         console.error('Il y a un problème avec la récupération ( fetch ) des données:', error);
-    });
+    }); // erreur avec .catch à voir mentorat
+
+// form login logic
+document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // from "piece auto Website" évite reload 
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value
+
+    console.log(email);
+    console.log(password);
+
+    // request to back for auth 
+    fetch('http://localhost:5678/api/users/login',{ // 404 not found why ?
+        method: 'POST', // send info de pièce auto
+        headers:{ // exemple pièce auto, metadata de la requête
+            'Content-Type': 'application/json', // indique contenu requête est en JSON
+            'Authorization': 'Bearer' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4" // pris d'un autre site "commonly used fo auth" est utilisé pour vérifier identité (voir mentorat)
+        },
+        body: JSON.stringify({ // transforme JS -> JSON, données envoyés
+            email: email, // valeur rentrées dans les champs var plus haut
+            password: password // valeur rentrées dans les champs var plus haut
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Si authentification bon renvoie sur index.html
+            window.location.href = 'index.html';
+        } else {
+            // sinon display une alert avec un message erreur ( à changer surement en du HTML d'une couleur rouge )
+            alert('email ou mot de passe incorrect. Réessayer');
+        }
+    })
+    .catch(error => { // bonne pratique si erreur comme plus haut 
+        console.error('Authentication error:', error);
+    })
+})
