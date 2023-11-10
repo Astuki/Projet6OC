@@ -74,7 +74,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         method: 'POST', // send info de pièce auto
         headers:{ // exemple pièce auto, metadata de la requête
             'Content-Type': 'application/json', // indique contenu requête est en JSON
-            'Authorization': 'Bearer' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4" // pris d'un autre site "commonly used fo auth" est utilisé pour vérifier identité (voir mentorat)
+            'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4" // pris d'un autre site "commonly used fo auth" est utilisé pour vérifier identité (voir mentorat)
         },
         body: JSON.stringify({ // transforme JS -> JSON, données envoyés
             email: email, // valeur rentrées dans les champs var plus haut
