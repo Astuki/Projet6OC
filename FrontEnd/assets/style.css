@@ -233,3 +233,47 @@ a{
 	margin: auto;
 	border-bottom: 1px solid gray;
 }
+.wrong{
+	animation: wrong 1s ease 1;
+}
+.right{
+	animation: right 1s ease 1;
+}
+@keyframes wrong {
+	0% { 
+		transform: translate(0, 0);
+		border: 1px solid red; 
+		box-shadow: 3px 3px 5px red;
+		}
+
+	20% { transform: translate(-10px); }
+    40% { transform: translate(10px); }
+    60% { transform: translate(-10px); }
+
+    80% { 
+		transform: translate(10px); 
+		border: 1px solid red; 
+		box-shadow: 2px 2px 5px red; 
+		}
+	100% { 
+		border: none; 
+		box-shadow: none;
+		transform: translate(0, 0);
+		}
+}
+
+@keyframes right {
+	0%  { 
+		border: 1px solid #1D6154; 
+		box-shadow: 3px 3px 5px #1D6154;
+		}
+    90% { 
+		border: 1px solid #1D6154; 
+		box-shadow: 3px 3px 5px #1D6154; 
+		}
+	100% 
+		{ 
+		border: none; 
+		box-shadow: none;
+		}
+}

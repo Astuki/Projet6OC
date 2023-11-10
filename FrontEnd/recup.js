@@ -1,6 +1,6 @@
 let allData = []; // Store all data fetched from API
 
-// This function filters the items based on the category name
+// This function filters the items based on the category name with the data / category fetched from backend
 function filterSelection(category) {
     const container = document.querySelector("div.gallery");
     container.innerHTML = ''; // Clear the container before re-rendering "to not render multiple buttons"
@@ -51,7 +51,7 @@ fetch('http://localhost:5678/api/works')
 
         const container = document.querySelector("div.gallery");
 
-        // make it so everything is displayed when my Website is loaded
+        // make it so everything is displayed when my Website is first loaded
         filterSelection('all');
 
     })
@@ -69,8 +69,8 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     console.log(email);
     console.log(password);
 
-    // request to back for auth 
-    fetch('http://localhost:5678/api/users/login',{ // 404 not found why ?
+    // request the back for auth 
+    fetch('http://localhost:5678/api/users/login',{ 
         method: 'POST', // send info de pièce auto
         headers:{ // exemple pièce auto, metadata de la requête
             'Content-Type': 'application/json', // indique contenu requête est en JSON
@@ -83,11 +83,26 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     })
     .then(response => {
         if (response.ok) {
-            // Si authentification bon renvoie sur index.html
-            window.location.href = 'index.html';
+            const allInputs = document.querySelectorAll(".inputs");
+            allInputs.forEach(input => {
+                input.classList.remove("right");
+                void input.offsetWidth; 
+                input.classList.add("right");
+            })
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 800)
         } else {
-            // sinon display une alert avec un message erreur ( à changer surement en du HTML d'une couleur rouge )
-            alert('email ou mot de passe incorrect. Réessayer');
+            const allInputs = document.querySelectorAll(".inputs");
+            allInputs.forEach(input => {
+                input.classList.remove("wrong");
+                void input.offsetWidth; 
+                // récupéré dans un code ( à demander au mentorat explication supp )
+                /* void sert à évaluer une expression donnée et renvoie 'undefined' 
+                utile pour effectuer une action si on ne requiert pas d'avoir une valeur renvoyée / returned */
+                // trigger un reflow car fait calculer la taille de l'élément avec ces différents styles
+                input.classList.add("wrong");
+            })
         }
     })
     .catch(error => { // bonne pratique si erreur comme plus haut 
