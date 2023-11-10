@@ -216,6 +216,12 @@ footer nav ul {
 	margin: 2em
 }
 
+/* Code rajouté pour tous les <a>*/
+a{
+	text-decoration: none;
+	color: inherit;
+}
+
 /* CSS spécifique login.html */
 
 #login_html{
@@ -225,6 +231,5 @@ footer nav ul {
 .link_forgot{
 	color: rgb(56, 56, 56);
 	margin: auto;
-	text-decoration: none;
 	border-bottom: 1px solid gray;
 }

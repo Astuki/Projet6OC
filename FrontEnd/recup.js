@@ -1,9 +1,9 @@
-let allData = []; // Store all data fetched from the API
+let allData = []; // Store all data fetched from API
 
 // This function filters the items based on the category name
 function filterSelection(category) {
     const container = document.querySelector("div.gallery");
-    container.innerHTML = ''; // Clear the container before re-rendering
+    container.innerHTML = ''; // Clear the container before re-rendering "to not render multiple buttons"
 
     if (category === 'all') {
         allData.forEach(item => {
@@ -11,7 +11,7 @@ function filterSelection(category) {
         });
     } else {
         allData.forEach(item => {
-            if (item.category.name === category) {
+            if (item.category.name === category) { // la value category is on the HTML
                 renderGalleryItem(container, item);
             }
         });
@@ -36,7 +36,7 @@ function renderGalleryItem(container, item) {
     figureElement.appendChild(figcaptionElement);
 }
 
-// Your existing fetch and rendering logic
+// fetch & render logic
 fetch('http://localhost:5678/api/works')
     .then(response => {
         if (response.ok) {
@@ -51,7 +51,7 @@ fetch('http://localhost:5678/api/works')
 
         const container = document.querySelector("div.gallery");
 
-        // Call the filter function with the 'all' category to display all items initially
+        // make it so everything is displayed when my Website is loaded
         filterSelection('all');
 
     })
