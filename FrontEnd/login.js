@@ -43,12 +43,19 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 input.classList.add("wrong");
             })
         }
-    }).then(/* récupérer mon token avec une loginData = response.JSON()
-     faire un .then utilisation locla Storage et d'un setItem pour enregistrer le ("Token", loginData.token)) */)
-    .catch(error => { // bonne pratique si erreur comme plus haut 
+    })
+    .then( loginData => {
+        localStorage.setItem("token", loginData.token);
+        console.log(loginData.token); /* token = loginData.token et loginData = userId = 1 + token */
+    })
+    .catch(error => { 
         console.error('Authentication error:', error);
     })
 })
+
+
+/* récupérer mon token avec une loginData = response.JSON()
+faire un .then utilisation locla Storage et d'un setItem pour enregistrer le ("Token", loginData.token)) */
 
 /* innerHTML HTML de la modal dans le JS */
 /* pas de modal pour le mode édition + apparition du bouton modifié */
