@@ -61,6 +61,8 @@ fetch('http://localhost:5678/api/works')
 
 
 
+
+
 const token = localStorage.getItem('token');
 const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 
@@ -75,10 +77,46 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
         });
     }
     EditionModeEnabled();
+
+    const linkToModify = document.querySelector("a.modifierChild")
+    linkToModify.addEventListener("click", function() {
+        let asideModify = document.querySelector(".modify");
+        asideModify.style.display = "flex";
+        renderImagesInModal();
+    })  
 }
 
-/* pas de modal pour le mode édition + apparition du bouton modifié */
-/*SI TOKEN est bon on affiche edition + modifier */
+function renderImagesInModal() {
+    const modalGallery = document.querySelector(".modalGallery");
+    modalGallery.innerHTML = ''; // Clear the modalGallery before re-render
+
+    allData.forEach(item => {
+        const container = document.createElement('div')
+        container.style.position = 'relative';
+
+        const imageElement = document.createElement('img');
+        imageElement.src = item.imageUrl;
+        imageElement.alt = '';
+        imageElement.style.width = '70px';
+        imageElement.style.height = 'auto';
+        imageElement.style.maxHeight = '100px';
+
+        const trashIcon = document.createElement('i');
+        trashIcon.classList.add('far', 'fa-trash-can', 'fa-xs', 'delete-icon');
+        trashIcon.addEventListener('click', function () {
+            console.log('delete item: ', item.title);
+        });
+
+        trashIcon.style.position = 'absolute';
+        trashIcon.style.top = '5px';
+        trashIcon.style.right = '5px';
+        
+        container.appendChild(imageElement);
+        container.appendChild(trashIcon);
+
+        modalGallery.appendChild(container);
+    });
+}
 
 /* innerHTML HTML de la modal dans le JS */
 /* 2 modals pour le modifier galerie */
