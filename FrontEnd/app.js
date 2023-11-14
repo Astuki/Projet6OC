@@ -59,3 +59,26 @@ fetch('http://localhost:5678/api/works')
         console.error('Il y a un problème avec la récupération ( fetch ) des données:', error);
     }); 
 
+
+
+const token = localStorage.getItem('token');
+const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+
+/* Si mode édition ne load pas 1ère cause d'erreur possible le if */
+if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix = true */
+
+    console.log('Token exists and seems to be correct, edition Mode Enabled.');
+    function EditionModeEnabled() {
+        const editionMode = document.querySelectorAll('.hidden');
+        editionMode.forEach(element => {
+            element.style.display = "flex";
+        });
+    }
+    EditionModeEnabled();
+}
+
+/* pas de modal pour le mode édition + apparition du bouton modifié */
+/*SI TOKEN est bon on affiche edition + modifier */
+
+/* innerHTML HTML de la modal dans le JS */
+/* 2 modals pour le modifier galerie */

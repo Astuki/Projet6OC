@@ -32,9 +32,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 800)
-
             return response.json();
-            /*SI TOKEN est bon on affiche la première modal modifier */
         } else {
             const allInputs = document.querySelectorAll(".inputs");
             allInputs.forEach(input => {
@@ -53,10 +51,3 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     })
 })
 
-
-/* récupérer mon token avec une loginData = response.JSON()
-faire un .then utilisation locla Storage et d'un setItem pour enregistrer le ("Token", loginData.token)) */
-
-/* innerHTML HTML de la modal dans le JS */
-/* pas de modal pour le mode édition + apparition du bouton modifié */
-/* 2 modals pour le modifier */

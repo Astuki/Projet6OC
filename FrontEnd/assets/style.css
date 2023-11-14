@@ -277,3 +277,33 @@ a{
 		box-shadow: none;
 		}
 }
+
+.edition{
+	width: 100%;
+	max-width: 1140px;
+	box-sizing: border-box;
+	background-color: black;
+	top: 0;
+	height: calc(20px + 2vw);
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+
+.modifier{
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+.modifierChild{
+	margin-bottom: 30px;
+}
+.hidden{
+	display: none;
+}
+/* button{
+	display: none;
+} */
