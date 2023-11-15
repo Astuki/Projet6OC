@@ -78,6 +78,14 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
     }
     EditionModeEnabled();
 
+    function hideButtons() {
+        let buttons = document.querySelectorAll(".all, .objects, .appartments, .hotelsRestaurants")
+        buttons.forEach(function (button) {
+            button.style.display = "none";
+        })
+    }
+    hideButtons();
+
     const linkToModify = document.querySelector("a.modifierChild")
     linkToModify.addEventListener("click", function() {
         let asideModify = document.querySelector(".modify");
@@ -102,7 +110,7 @@ function renderImagesInModal() {
         imageElement.style.maxHeight = '100px';
 
         const trashIcon = document.createElement('i');
-        trashIcon.classList.add('far', 'fa-trash-can', 'fa-xs', 'delete-icon');
+        trashIcon.classList.add('far', 'fa-trash-can', 'fa-2xs', 'delete-icon');
         trashIcon.addEventListener('click', function () {
             console.log('delete item: ', item.title);
         });
@@ -118,5 +126,14 @@ function renderImagesInModal() {
     });
 }
 
+function leaveModal() {
+    const xMark = document.querySelector(".fa-xmark");
+    xMark.addEventListener("click", function () {
+        let asideModify = document.querySelector(".modify");
+        asideModify.style.display = "none";
+    })
+}
+
+leaveModal();
 /* innerHTML HTML de la modal dans le JS */
 /* 2 modals pour le modifier galerie */

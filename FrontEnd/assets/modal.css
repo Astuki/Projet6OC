@@ -22,7 +22,19 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
+.titleLeave{
+    display: flex;
+}
+.fa-xmark{
+    position: relative;
+    left: 175px;
+}
+.fa-xmark:hover{
+    color: rgba(255, 80, 0, 0.8);
+}
+.fa-xmark:active{
+    transform: scale(1.2);
+}
 .modalGallery{
     display: flex;
     flex-flow: row wrap;
@@ -38,14 +50,17 @@
 .moreSpace{
     margin-top: 50px;
     margin-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 15px;
 }
 .delete-icon{
     text-align: center;
 	background-color: black;
-	line-height: 25px;
+	line-height: 20px;
 	color: white;
-    width: 20px;
-    height: 25px;
+    width: 15px;
+    height: 20px;
 }
 
 
