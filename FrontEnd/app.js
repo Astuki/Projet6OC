@@ -86,12 +86,43 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
     }
     hideButtons();
 
-    const linkToModify = document.querySelector("a.modifierChild")
+    const linkToModify = document.querySelector("a.modifierChild");
+    let asideModify = document.querySelector(".modify");
     linkToModify.addEventListener("click", function() {
-        let asideModify = document.querySelector(".modify");
         asideModify.style.display = "flex";
         renderImagesInModal();
     })  
+
+    const modalAdd = document.querySelector(".modify2");
+    const buttonShowModal = document.getElementById("showModal2")
+    buttonShowModal.addEventListener("click", function () {
+        modalAdd.style.display = "flex";
+        asideModify.style.display = "none";
+    })
+
+    function leaveModal() {
+        const closeModals = document.querySelectorAll("#closeModals");
+        closeModals.forEach(function (xMark) {
+            xMark.addEventListener("click", function () {
+                let asideModify = document.querySelector(".modify");
+                asideModify.style.display = "none";
+                let asideModify2 = document.querySelector(".modify2");
+                asideModify2.style.display = "none";
+            });
+        });
+    }
+    leaveModal();
+
+    function switchModal() {
+        const goBack = document.querySelector("i.fa-arrow-left");
+        goBack.addEventListener("click", function () {
+            let asideModify2 = document.querySelector(".modify2");
+            asideModify2.style.display = "none";
+            let asideModify = document.querySelector(".modify");
+            asideModify.style.display = "flex";
+        })
+    }
+    switchModal();
 }
 
 function renderImagesInModal() {
@@ -170,23 +201,5 @@ function updateFrontend(itemId) {
     renderImagesInModal();
 }
 
-function leaveModal() {
-    const xMark = document.querySelector(".fa-xmark");
-    xMark.addEventListener("click", function () {
-        let asideModify = document.querySelector(".modify");
-        asideModify.style.display = "none";
-    })
-}
-
-leaveModal();
 
 
-
-
-/* Création d'une seconde modal en entier avec class + HTML */
-/* 2 modals pour le modifier galerie */
-/* manipulation de tableau pour la suppression des images 
-Ou méthode filter() / splice / push */ 
-
-
-/* Ajout message */
