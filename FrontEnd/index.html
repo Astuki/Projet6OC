@@ -25,15 +25,19 @@
 		<div class="form-wrapper">
 			<form id="addItemForm" enctype="multipart/form-data" class="sendForm">
 				<div class="wrapperAddImage">
-					<i class="fa-regular fa-image fa-5x"></i>
-					<label for="image"></label>
+					<div class="image-preview" id="imagePreview">
+						<i class="fa-regular fa-image fa-4x"></i>
+					</div>
+					<label for="image" class="button-styling">
+						+ Ajouter Photo
+					</label>
 					<input type="file" id="image" name="image" accept="image/*" required>
 					<p class="small">Max file size: 4MB</p>
 				</div>
-				<label for="title">Title:</label>
+				<label for="title">Titre:</label>
 				<input type="text" id="title" name="title" required>
 			
-				<label for="category">Category:</label>
+				<label for="category">Catégorie:</label>
 				<select id="category" name="category" required>
 					<option value="objects">Objects</option>
 					<option value="appartments">Appartments</option>

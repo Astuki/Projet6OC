@@ -122,7 +122,7 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
             asideModify.style.display = "flex";
         })
     }
-    switchModal();
+    switchModal();  
 }
 
 function renderImagesInModal() {
@@ -203,3 +203,82 @@ function updateFrontend(itemId) {
 
 
 
+document.getElementById("image").addEventListener("change", function () {
+    const previewContainer = document.getElementById("imagePreview");
+    let previewImage = previewContainer.querySelector("img");
+
+    if (this.files && this.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            if (!previewImage) {
+                previewImage = document.createElement("img");
+                previewContainer.innerHTML = ''; // Clear any previous content
+                previewContainer.appendChild(previewImage);
+            }
+
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(this.files[0]);
+    }
+})
+
+
+
+document.getElementById("addItemForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    const formData = new FormData(this);
+
+    const token = localStorage.getItem('token');
+    const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+
+    if (!token || !token.startsWith(expectedTokenPrefix)) {
+        console.error('Invalid or missing token.');
+        return;
+    }
+
+    // Add the category data to the formData based on the selected option
+    const selectedCategory = document.getElementById("category").value;
+    formData.append("categoryId", getCategoryID(selectedCategory));
+    formData.append("title", document.getElementById("title").value);
+
+    try {
+        const response = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            console.log('Item added successfully.');
+            updateFrontend(); /* formData */
+        } else if (response.status === 401) {
+            console.error('Unauthorized. Please log in.');
+        } else {
+            console.error(`Failed to add item. Server responded with status ${response.status}`);
+            const errorMessage = await response.text();
+            console.error(`Server error message: ${errorMessage}`);
+        }
+    } catch (error) {
+        console.error('Error adding item:', error);
+    }
+});
+
+// Function to get the category ID based on the selected category name
+function getCategoryID(categoryName) {
+    // You may need to update this logic based on your actual data structure
+    switch (categoryName) {
+        case 'objects':
+            return 1;
+        case 'appartments':
+            return 2;
+        case 'hotelsRestaurants':
+            return 3;
+        default:
+            return null;
+    }
+}

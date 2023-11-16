@@ -90,9 +90,12 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Tout est en flex-start */
     gap: 15px;
     font-size: 15px;
+}
+.sendForm button{
+    align-self: center;
 }
 .sendForm > button{
     padding-left: 45px; /* a adapter dans les 2 boutons */
@@ -107,23 +110,24 @@
     border-radius: 5px;
     background: #E8F1F6;
     width: 100%;
-    height: 180px;
-    gap: 10px;
+    height: 190px;
+    gap: 5px;
 }
 .fa-image{
     color: rgba(185, 197, 204, 1);
 }
-input#image{
-    border: none;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    border-radius: 10px;
+.button-styling{
+    border-radius: 15px;
+    padding: 8px 20px 8px 20px;
     background: #CBD6DC;
-    
+    color: #306685;
+}
+input#image{
+    position: absolute;
+    left: -9999px;
 }
 .small{
-    font-size: 11px;
+    font-size: 10px;
 }
 #title, #category{
     height: 40px;
@@ -135,4 +139,22 @@ input#image{
     padding-top: 10px;
     width: 100%;
     border-bottom: 1px rgba(172, 172, 172, 0.7) solid;
+}
+
+
+
+.image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 125px; 
+    height: 125px;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
 }
