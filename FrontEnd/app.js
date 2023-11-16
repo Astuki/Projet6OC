@@ -110,9 +110,10 @@ function renderImagesInModal() {
         imageElement.style.maxHeight = '100px';
 
         const trashIcon = document.createElement('i');
-        trashIcon.classList.add('far', 'fa-trash-can', 'fa-2xs', 'delete-icon');
+        trashIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-2xs', 'delete-icon');
         trashIcon.addEventListener('click', function () {
             console.log('delete item: ', item.title);
+            deleteItem(item.id);
         });
 
         trashIcon.style.position = 'absolute';
@@ -126,6 +127,49 @@ function renderImagesInModal() {
     });
 }
 
+async function deleteItem(itemId) {
+    const token = localStorage.getItem('token');
+    const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+
+    if (!token || !token.startsWith(expectedTokenPrefix)) {
+        console.error('Invalid or missing token.');
+        return;
+    }
+
+    // Use try-catch block to handle errors
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${itemId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            console.log('Item deleted successfully.');
+            updateFrontend(itemId);
+        } else if (response.status === 401) {
+            console.error('Unauthorized. Please log in.');
+            // Handle unauthorized access as needed
+        } else {
+            console.error(`Failed to delete item. Server responded with status ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error deleting item:', error);
+    }
+}
+
+// Step 2: Function to update the frontend
+function updateFrontend(itemId) {
+    // Find and remove the deleted item from allData
+    allData = allData.filter(item => item.id !== itemId);
+
+    // Re-render the gallery
+    filterSelection('all');
+
+    renderImagesInModal();
+}
+
 function leaveModal() {
     const xMark = document.querySelector(".fa-xmark");
     xMark.addEventListener("click", function () {
@@ -135,5 +179,14 @@ function leaveModal() {
 }
 
 leaveModal();
-/* innerHTML HTML de la modal dans le JS */
+
+
+
+
+/* Création d'une seconde modal en entier avec class + HTML */
 /* 2 modals pour le modifier galerie */
+/* manipulation de tableau pour la suppression des images 
+Ou méthode filter() / splice / push */ 
+
+
+/* Ajout message */
