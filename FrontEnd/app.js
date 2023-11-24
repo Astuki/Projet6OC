@@ -167,7 +167,7 @@ async function deleteItem(itemId) {
         return;
     }
 
-    // Use try-catch block to handle errors
+    // try-catch block to handle errors
     try {
         const response = await fetch(`http://localhost:5678/api/works/${itemId}`, {
             method: 'DELETE',
@@ -202,7 +202,7 @@ function updateFrontend(itemId) {
 }
 
 
-
+// This make the "Preview" effect
 document.getElementById("image").addEventListener("change", function () {
     const previewContainer = document.getElementById("imagePreview");
     let previewImage = previewContainer.querySelector("img");
@@ -226,8 +226,13 @@ document.getElementById("image").addEventListener("change", function () {
 
 
 
+
+
+
+
+
 document.getElementById("addItemForm").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault(); // Prevent default form submission behavior
 
     const formData = new FormData(this);
 
@@ -244,6 +249,8 @@ document.getElementById("addItemForm").addEventListener("submit", async function
     formData.append("categoryId", getCategoryID(selectedCategory));
     formData.append("title", document.getElementById("title").value);
 
+    // .files avec FormData pour prendre l'image
+    
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
@@ -270,7 +277,6 @@ document.getElementById("addItemForm").addEventListener("submit", async function
 
 // Function to get the category ID based on the selected category name
 function getCategoryID(categoryName) {
-    // You may need to update this logic based on your actual data structure
     switch (categoryName) {
         case 'objects':
             return 1;
@@ -282,3 +288,6 @@ function getCategoryID(categoryName) {
             return null;
     }
 }
+
+// Why Adding doesn't Work FormData add image?
+// Why GithubPages Doesn't work ?
