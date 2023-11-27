@@ -1,5 +1,18 @@
 let allData = []; // Store all data fetched from API
 
+document.querySelector(".all").addEventListener("click", function () {
+    filterSelection('all');
+});
+document.querySelector(".objects").addEventListener("click", function () {
+    filterSelection('Objects');
+});
+document.querySelector(".appartments").addEventListener("click", function () {
+    filterSelection('Appartements');
+});
+document.querySelector(".hotelsRestaurants").addEventListener("click", function () {
+    filterSelection('Hotels & restaurants');
+});
+
 // This function filters the items based on the category name with the data / category fetched from backend
 function filterSelection(category) {
     const container = document.querySelector(".gallery");
@@ -101,7 +114,7 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
     })
 
     function leaveModal() {
-        const closeModals = document.querySelectorAll("#closeModals");
+        const closeModals = document.querySelectorAll(".closeModals");
         closeModals.forEach(function (xMark) {
             xMark.addEventListener("click", function () {
                 let asideModify = document.querySelector(".modify");
@@ -177,12 +190,13 @@ async function deleteItem(itemId) {
         });
 
         if (response.ok) {
-            console.log('Item deleted successfully.');
+            alert('Image Supprimée !')
             updateFrontend(itemId);
         } else if (response.status === 401) {
-            console.error('Unauthorized. Please log in.');
-            // Handle unauthorized access as needed
+            alert('Unauthorized, Vous devez vous connecter !')
+            console.error('Unauthorized. Please log in.'); 
         } else {
+            alert('Erreur contacter le gérant du serveur ou le développeur !')
             console.error(`Failed to delete item. Server responded with status ${response.status}`);
         }
     } catch (error) {
@@ -221,20 +235,27 @@ document.getElementById("image").addEventListener("change", function () {
         };
 
         reader.readAsDataURL(this.files[0]);
+
+        const labelButton = document.querySelector(".button-styling");
+        const smallText = document.querySelector(".small");
+
+        smallText.style.display = "none";
+
+        labelButton.style.opacity = "0";
+        labelButton.style.position = "absolute";
+        labelButton.style.height = "175px";
+        labelButton.style.width = "125px";
+        labelButton.style.padding = "0px";
+
+        let previewedImage = document.querySelector(".image-preview");
+        previewedImage.style.height = "175px"
     }
 })
-
-
-
-
-
-
-
 
 document.getElementById("addItemForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const formData = new FormData(this);
+    const formData = new FormData();
 
     const token = localStorage.getItem('token');
     const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
@@ -246,11 +267,16 @@ document.getElementById("addItemForm").addEventListener("submit", async function
 
     // Add the category data to the formData based on the selected option
     const selectedCategory = document.getElementById("category").value;
-    formData.append("categoryId", getCategoryID(selectedCategory));
+    formData.append("categoryId", getCategoryID(selectedCategory)); 
     formData.append("title", document.getElementById("title").value);
+    formData.append('imageUrl', document.getElementById("image").files[0]);
 
-    // .files avec FormData pour prendre l'image
-    
+    if (!formData.get("categoryId") || !formData.get("title") || !formData.get("imageUrl")) {
+        alert('Error: Remplissez bien les 3 champs.');
+        return;
+    }
+
+    console.log([...formData.entries()]);
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
@@ -261,7 +287,7 @@ document.getElementById("addItemForm").addEventListener("submit", async function
         });
 
         if (response.ok) {
-            console.log('Item added successfully.');
+            alert("L'ajout a été réussi !")
             updateFrontend(); /* formData */
         } else if (response.status === 401) {
             console.error('Unauthorized. Please log in.');
@@ -278,16 +304,16 @@ document.getElementById("addItemForm").addEventListener("submit", async function
 // Function to get the category ID based on the selected category name
 function getCategoryID(categoryName) {
     switch (categoryName) {
-        case 'objects':
+        case 'Objects':
             return 1;
-        case 'appartments':
+        case 'Appartements':
             return 2;
-        case 'hotelsRestaurants':
+        case 'Hotels & restaurants':
             return 3;
         default:
             return null;
     }
 }
 
-// Why Adding doesn't Work FormData add image?
-// Why GithubPages Doesn't work ?
+
+

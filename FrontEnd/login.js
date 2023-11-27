@@ -7,9 +7,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value
 
-    console.log(email);
-    console.log(password);
-
     // request the back for auth 
     fetch('http://localhost:5678/api/users/login',{ 
         method: 'POST', 
@@ -24,6 +21,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     .then(response => {
         if (response.ok) {
             const allInputs = document.querySelectorAll(".inputs");
+            alert("Connexion Réussi, vous allez être envoyé sur la page d'accueil");
             allInputs.forEach(input => {
                 input.classList.remove("right");
                 void input.offsetWidth; 
@@ -35,6 +33,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             return response.json();
         } else {
             const allInputs = document.querySelectorAll(".inputs");
+            alert("Mot De Passe ou Email incorrect");
             allInputs.forEach(input => {
                 input.classList.remove("wrong");
                 void input.offsetWidth; 
@@ -44,7 +43,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     })
     .then( loginData => {
         localStorage.setItem("token", loginData.token);
-        console.log(loginData.token); /* token = loginData.token et loginData = userId = 1 + token */
     })
     .catch(error => { 
         console.error('Authentication error:', error);

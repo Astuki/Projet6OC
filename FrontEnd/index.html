@@ -19,7 +19,7 @@
 		<div class="titleLeaveReturn">
 			<i class="fa-solid fa-arrow-left fa-xs"></i>
 			<h3>Ajout Photo</h3>
-			<i class="fa-solid fa-xmark fa-xs" id="closeModals"></i>
+			<i class="fa-solid fa-xmark fa-xs closeModals"></i>
 		</div>
 
 		<div class="form-wrapper">
@@ -31,17 +31,17 @@
 					<label for="image" class="button-styling">
 						+ Ajouter Photo
 					</label>
-					<input type="file" id="image" name="image" accept="image/*" required>
+					<input type="file" id="image" name="image" accept="image/*">
 					<p class="small">Max file size: 4MB</p>
 				</div>
 				<label for="title">Titre:</label>
-				<input type="text" id="title" name="title" required>
+				<input type="text" id="title" name="title">
 			
 				<label for="category">Catégorie:</label>
-				<select id="category" name="category" required>
-					<option value="objects">Objects</option>
-					<option value="appartments">Appartments</option>
-					<option value="hotelsRestaurants">Hotels & Restaurants</option>
+				<select id="category" name="category">
+					<option value="Objects">Objects</option>
+					<option value="Appartements">Appartments</option>
+					<option value="Hotels & restaurants">Hotels & Restaurants</option>
 				</select>
 				<div class="line"></div>
 				<button class="button" type="submit">Valider</button>
@@ -54,7 +54,7 @@
 	<div class="modal-wrapper">
 		<div class="titleLeave">
 			<h3>Galerie Photo</h3>
-			<i class="fa-solid fa-xmark fa-xs" id="closeModals"></i>
+			<i class="fa-solid fa-xmark fa-xs closeModals"></i>
 		</div>
 
 		<div class="modalGallery">
@@ -104,27 +104,19 @@
 			</div>
 		</div>
 		<div class="container-of-filter">
-			<button 
-			class="button all" 
-			onclick="filterSelection('all')">
+			<button class="button all" >
 			Tous
 			</button>
 
-			<button 
-			class="button objects" 
-			onclick="filterSelection('Objets')">
+			<button class="button objects"> 
 			Objets
 			</button>
 
-			<button 
-			class="button appartments" 
-			onclick="filterSelection('Appartements')">
+			<button class="button appartments" >
 			Appartements
 			</button>
 
-			<button 
-			class="button hotelsRestaurants" 
-			onclick="filterSelection('Hotels & restaurants')">
+			<button class="button hotelsRestaurants">  
 			Hôtels & restaurants
 			</button>
 		</div>
