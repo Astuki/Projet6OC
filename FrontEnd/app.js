@@ -3,8 +3,8 @@ let allData = []; // Store all data fetched from API
 document.querySelector(".all").addEventListener("click", function () {
     filterSelection('all');
 });
-document.querySelector(".objects").addEventListener("click", function () {
-    filterSelection('Objects');
+document.querySelector(".objets").addEventListener("click", function () {
+    filterSelection('Objets');
 });
 document.querySelector(".appartments").addEventListener("click", function () {
     filterSelection('Appartements');
@@ -69,7 +69,7 @@ fetch('http://localhost:5678/api/works')
 
     })
     .catch(error => {
-        console.error('Il y a un problème avec la récupération ( fetch ) des données:', error);
+        console.error('Il y a un problème avec la récupération des données:', error);
     }); 
 
 
@@ -80,9 +80,7 @@ const token = localStorage.getItem('token');
 const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 
 /* Si mode édition ne load pas 1ère cause d'erreur possible le if */
-if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix = true */
-
-    console.log('Token exists and seems to be correct, edition Mode Enabled.');
+if (token && token.startsWith(expectedTokenPrefix)) {
     function EditionModeEnabled() {
         const editionMode = document.querySelectorAll('.hidden');
         editionMode.forEach(element => {
@@ -92,12 +90,27 @@ if (token && token.startsWith(expectedTokenPrefix)) { /* Si existence & prefix =
     EditionModeEnabled();
 
     function hideButtons() {
-        let buttons = document.querySelectorAll(".all, .objects, .appartments, .hotelsRestaurants")
+        let buttons = document.querySelectorAll(".all, .objets, .appartments, .hotelsRestaurants")
         buttons.forEach(function (button) {
             button.style.display = "none";
         })
     }
     hideButtons();
+
+    function Logout(){
+        let logout = document.querySelector(".logout");
+        logout.innerText = "logout";
+        logout.style.color = "rgb(210, 80, 30)";
+        
+        logout.addEventListener("click", function() {
+            localStorage.removeItem("token");
+
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 200)
+        })
+    }
+    Logout();
 
     const linkToModify = document.querySelector("a.modifierChild");
     let asideModify = document.querySelector(".modify");
@@ -150,13 +163,12 @@ function renderImagesInModal() {
         imageElement.src = item.imageUrl;
         imageElement.alt = '';
         imageElement.style.width = '70px';
-        imageElement.style.height = 'auto';
         imageElement.style.maxHeight = '100px';
+        imageElement.style.minHeight = "100px";
 
         const trashIcon = document.createElement('i');
         trashIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-2xs', 'delete-icon');
         trashIcon.addEventListener('click', function () {
-            console.log('delete item: ', item.title);
             deleteItem(item.id);
         });
 
@@ -176,7 +188,7 @@ async function deleteItem(itemId) {
     const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
     if (!token || !token.startsWith(expectedTokenPrefix)) {
-        console.error('Invalid or missing token.');
+        console.error('Token invalide ou manquant.');
         return;
     }
 
@@ -193,14 +205,12 @@ async function deleteItem(itemId) {
             alert('Image Supprimée !')
             updateFrontend(itemId);
         } else if (response.status === 401) {
-            alert('Unauthorized, Vous devez vous connecter !')
-            console.error('Unauthorized. Please log in.'); 
+            alert('Unauthorized, Vous devez vous connecter !') 
         } else {
-            alert('Erreur contacter le gérant du serveur ou le développeur !')
-            console.error(`Failed to delete item. Server responded with status ${response.status}`);
+            alert('Erreur contacter le gérant du serveur ou le développeur ! ' `${response.status}`)
         }
     } catch (error) {
-        console.error('Error deleting item:', error);
+        alert('Erreur lors de la Supression:', error);
     }
 }
 
@@ -243,7 +253,7 @@ document.getElementById("image").addEventListener("change", function () {
 
         labelButton.style.opacity = "0";
         labelButton.style.position = "absolute";
-        labelButton.style.height = "175px";
+        labelButton.style.height = "170px";
         labelButton.style.width = "125px";
         labelButton.style.padding = "0px";
 
@@ -261,18 +271,34 @@ document.getElementById("addItemForm").addEventListener("submit", async function
     const expectedTokenPrefix = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
     if (!token || !token.startsWith(expectedTokenPrefix)) {
-        console.error('Invalid or missing token.');
+        console.error('Token non valide ou manquant.');
         return;
     }
 
     // Add the category data to the formData based on the selected option
     const selectedCategory = document.getElementById("category").value;
-    formData.append("categoryId", getCategoryID(selectedCategory)); 
+    formData.append("category", getCategoryID(selectedCategory)); 
     formData.append("title", document.getElementById("title").value);
-    formData.append('imageUrl', document.getElementById("image").files[0]);
+    formData.append('image', document.getElementById("image").files[0]);
 
-    if (!formData.get("categoryId") || !formData.get("title") || !formData.get("imageUrl")) {
-        alert('Error: Remplissez bien les 3 champs.');
+    clearErrorMessages();
+
+    // Check for empty fields and display error messages
+    if (!formData.get("category")) {
+        displayErrorMessage("category", "Veuillez choisir une catégorie.");
+    }
+    if (!formData.get("title")) {
+        displayErrorMessage("title", "Veuillez entrer un titre.");
+    }
+    const imageInput = document.getElementById("image");
+    if (!imageInput.files || imageInput.files.length === 0) {
+        let smallText = document.querySelector(".small");
+        smallText.style.display = "none";
+        displayErrorMessage("image", "Veuillez sélectionner une image.");
+    }
+
+    // If errors, stop form submission
+    if (document.getElementsByClassName("error-message").length > 0) {
         return;
     }
 
@@ -288,23 +314,26 @@ document.getElementById("addItemForm").addEventListener("submit", async function
 
         if (response.ok) {
             alert("L'ajout a été réussi !")
-            updateFrontend(); /* formData */
+            let newObjectToAdd = await response.json();
+            allData.push(newObjectToAdd);
+
+            updateFrontend(); 
         } else if (response.status === 401) {
-            console.error('Unauthorized. Please log in.');
+            console.error('Unauthorized. Connectez-vous.');
         } else {
-            console.error(`Failed to add item. Server responded with status ${response.status}`);
+            console.error(`L'ajout du projet n'a pas réussi, contacter le développeur ou gestionnaire du serveur ${response.status}`);
             const errorMessage = await response.text();
             console.error(`Server error message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error('Error adding item:', error);
+        console.error("Erreur lors de l'ajout, réessayer :", error);
     }
 });
 
 // Function to get the category ID based on the selected category name
 function getCategoryID(categoryName) {
     switch (categoryName) {
-        case 'Objects':
+        case 'Objets':
             return 1;
         case 'Appartements':
             return 2;
@@ -315,5 +344,22 @@ function getCategoryID(categoryName) {
     }
 }
 
+function displayErrorMessage(fieldName, message) {
+    const fieldElement = document.getElementById(fieldName);
+    const errorMessageElement = document.createElement("p");
+    errorMessageElement.className = "error-message";
+    errorMessageElement.textContent = message;
 
+    errorMessageElement.style.fontSize = "10px";
+    errorMessageElement.style.position = "relative";
+    // Insert the error message below the corresponding form field
+    fieldElement.parentNode.insertBefore(errorMessageElement, fieldElement.nextSibling);
+}
+
+function clearErrorMessages() {
+    const errorMessages = document.getElementsByClassName("error-message");
+    for (let i = 0; i < errorMessages.length; i++) {
+        errorMessages[i].remove();
+    }
+}
 
